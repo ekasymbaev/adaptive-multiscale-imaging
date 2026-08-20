@@ -1,0 +1,38 @@
+{
+  "dataset_name": "ma_islands",
+  "source": {
+    "title": "M-A island segmentation of bainite microstructures in SEM image data",
+    "article_id": 19232523,
+    "version": 2,
+    "doi": "10.6084/m9.figshare.19232523.v2",
+    "record_url": "https://figshare.com/articles/dataset/Image_data_and_labels/19232523",
+    "download_url": "https://ndownloader.figshare.com/files/34171098",
+    "archive_name": "dataset.zip",
+    "archive_size_bytes": 876503324,
+    "archive_md5": "0c17b87a65f6ff198eb6f4dd459e9330",
+    "license": "MIT"
+  },
+  "paths": {
+    "raw_dir": "data/raw/ma_islands",
+    "extracted_dir": "data/raw/ma_islands/extracted",
+    "native_subset": "dataset/appendix/i_ii_iii_iv_combined",
+    "processed_dir": "data/processed/ma_islands",
+    "splits_dir": "data/splits/ma_islands",
+    "results_dir": "results/dataset_audit/ma_islands"
+  },
+  "expected": {
+    "image_count": 40,
+    "width": 2048,
+    "height": 1536,
+    "tile_size": 256,
+    "tile_columns": 8,
+    "tile_rows": 6,
+    "tiles_per_image": 48
+  },
+  "cross_validation": {
+    "n_splits": 5,
+    "random_seed": 2026,
+    "validation_offset": 1,
+    "stratify_by": "source_regime"
+  }
+}

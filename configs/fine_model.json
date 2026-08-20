@@ -1,0 +1,53 @@
+{
+  "experiment_name": "ma_islands_fine_unet_cv5",
+  "dataset": {
+    "coarse_manifest": "data/processed/ma_islands/coarse/coarse_manifest.csv",
+    "cv_manifest": "data/splits/ma_islands/cv5_splits.csv",
+    "native_width": 2048,
+    "native_height": 1536,
+    "tile_size": 256,
+    "tiles_per_image": 48
+  },
+  "coarse_comparison": {
+    "metrics": "results/coarse_model/metrics/per_image_test_metrics.csv",
+    "prediction_pattern": "results/coarse_model/predicted_masks/fold_{fold}/{sample_id}.png",
+    "upsampling": "nearest_neighbor"
+  },
+  "model": {
+    "in_channels": 1,
+    "out_channels": 1,
+    "encoder_channels": [16, 32, 64, 128],
+    "bottleneck_dropout": 0.1
+  },
+  "training": {
+    "random_seed": 3026,
+    "folds": [0, 1, 2, 3, 4],
+    "batch_size": 16,
+    "num_workers": 0,
+    "max_epochs": 30,
+    "early_stopping_patience": 6,
+    "early_stopping_min_delta": 0.0001,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "scheduler_factor": 0.5,
+    "scheduler_patience": 2,
+    "minimum_learning_rate": 0.00001,
+    "bce_weight": 0.5,
+    "dice_weight": 0.5,
+    "soft_dice_smooth": 1.0,
+    "prediction_threshold": 0.5,
+    "horizontal_flip_probability": 0.5,
+    "vertical_flip_probability": 0.5,
+    "normalization": "train_fold_native_global_mean_std",
+    "patch_sampling": "uniform_all_tiles",
+    "patch_sampling_reason": "Only 17/1920 tiles are empty and 27/1920 have under 1% foreground; fold-specific positive-class weighting handles pixel imbalance without distorting tile prevalence.",
+    "device": "auto",
+    "cpu_threads": 8
+  },
+  "statistics": {
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 9026,
+    "confidence_level": 0.95
+  },
+  "output_dir": "results/fine_model"
+}

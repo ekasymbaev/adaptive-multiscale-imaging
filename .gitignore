@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints/
+data/*
+!data/README.md
+!data/splits/
+!data/splits/**
+results/
+outputs/
+*.pt
+*.pth
+*.ckpt
+.env
+node_modules/

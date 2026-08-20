@@ -1,0 +1,19 @@
+{
+  "experiment_name": "ma_islands_coarse_mc_dropout_cv5",
+  "coarse_model_config": "configs/coarse_model.json",
+  "coarse_manifest": "data/processed/ma_islands/coarse/coarse_manifest.csv",
+  "cv_manifest": "data/splits/ma_islands/cv5_splits.csv",
+  "coarse_metrics": "results/coarse_model/metrics/per_image_test_metrics.csv",
+  "checkpoint_pattern": "results/coarse_model/checkpoints/fold_{fold}_best.pt",
+  "prediction_pattern": "results/coarse_model/predicted_masks/fold_{fold}/{sample_id}.png",
+  "folds": [0, 1, 2, 3, 4],
+  "mc_passes": 8,
+  "random_seed": 4026,
+  "prediction_threshold": 0.5,
+  "entropy_units": "bits",
+  "top_uncertainty_fractions": [0.1, 0.2, 0.3],
+  "local_region_size": 64,
+  "device": "auto",
+  "cpu_threads": 8,
+  "output_dir": "results/coarse_uncertainty"
+}

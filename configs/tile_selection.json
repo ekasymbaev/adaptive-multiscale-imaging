@@ -1,0 +1,22 @@
+{
+  "experiment_name": "ma_islands_tile_selection_cv5",
+  "coarse_manifest": "data/processed/ma_islands/coarse/coarse_manifest.csv",
+  "cv_manifest": "data/splits/ma_islands/cv5_splits.csv",
+  "step3_metrics": "results/coarse_uncertainty/metrics/per_image_uncertainty_metrics.csv",
+  "uncertainty_pattern": "results/coarse_uncertainty/uncertainty_maps/{sample_id}.npz",
+  "prediction_pattern": "results/coarse_model/predicted_masks/fold_{fold}/{sample_id}.png",
+  "native_height": 1536,
+  "native_width": 2048,
+  "coarse_height": 384,
+  "coarse_width": 512,
+  "native_tile_size": 256,
+  "tile_score_percentile": 90.0,
+  "budgets": [2, 4, 8, 12, 24, 48],
+  "random_trials": 100,
+  "random_seed_base": 6026,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 8026,
+  "confidence_level": 0.95,
+  "example_budget": 8,
+  "output_dir": "results/tile_selection"
+}
