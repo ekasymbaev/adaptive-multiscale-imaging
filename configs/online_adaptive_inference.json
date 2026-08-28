@@ -1,0 +1,62 @@
+{
+  "experiment_name": "ma_islands_online_adaptive_inference_cv5",
+  "dataset": {
+    "coarse_manifest": "data/processed/ma_islands/coarse/coarse_manifest.csv",
+    "cv_manifest": "data/splits/ma_islands/cv5_splits.csv",
+    "native_width": 2048,
+    "native_height": 1536,
+    "coarse_width": 512,
+    "coarse_height": 384,
+    "tile_size": 256,
+    "tiles_per_image": 48
+  },
+  "models": {
+    "coarse_checkpoint_pattern": "results/coarse_model/checkpoints/fold_{fold}_best.pt",
+    "fine_checkpoint_pattern": "results/fine_model/checkpoints/fold_{fold}_best.pt",
+    "coarse_prediction_pattern": "results/coarse_model/predicted_masks/fold_{fold}/{sample_id}.png",
+    "fine_prediction_pattern": "results/fine_model/predicted_masks/fold_{fold}/{sample_id}.png",
+    "prediction_threshold": 0.5,
+    "fine_inference_batch_size": 16,
+    "device": "auto",
+    "cpu_threads": 8
+  },
+  "uncertainty": {
+    "mc_passes": 8,
+    "random_seed_base": 4026,
+    "tile_score_percentile": 90.0,
+    "reference_rankings": "results/tile_selection/metrics/uncertainty_rankings.csv"
+  },
+  "selection": {
+    "budgets": [12, 24],
+    "random_seed_base": 6026,
+    "random_trial_index": 0
+  },
+  "fusion": {
+    "rule": "feathered",
+    "blend_width_pixels": 8,
+    "coarse_probability_upsampling": "nearest_neighbor"
+  },
+  "timing": {
+    "accelerator_synchronization": true,
+    "warm_up_excluded": true,
+    "include_dataset_file_io_in_compute_total": false,
+    "fine_stage_includes_tile_extraction_normalization_transfer_and_output_copy": true,
+    "timing_repeats_per_image": 3
+  },
+  "verification": {
+    "step6_per_image_metrics": "results/adaptive_fusion/metrics/per_image_policy_metrics.csv",
+    "step6_random_trial_metrics": "results/adaptive_fusion/metrics/random_trial_metrics.csv",
+    "step6_entropy_mask_pattern": "results/adaptive_fusion/predicted_masks/entropy_feathered/k12/fold_{fold}/{sample_id}.png"
+  },
+  "statistics": {
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 12026,
+    "confidence_level": 0.95
+  },
+  "reproducibility": {
+    "random_seed": 13026,
+    "ground_truth_use": "Loaded only after online uncertainty, selection, selective fine inference, and fusion have completed for an image",
+    "cost_interpretation": "Fine-model computation is genuinely conditional on selected tiles; native TIFF decoding still loads the stored full image and therefore does not represent selective hardware acquisition"
+  },
+  "output_dir": "results/online_adaptive"
+}

@@ -1,0 +1,54 @@
+{
+  "experiment_name": "ma_islands_adaptive_fusion_cv5",
+  "dataset": {
+    "coarse_manifest": "data/processed/ma_islands/coarse/coarse_manifest.csv",
+    "cv_manifest": "data/splits/ma_islands/cv5_splits.csv",
+    "native_width": 2048,
+    "native_height": 1536,
+    "coarse_width": 512,
+    "coarse_height": 384,
+    "tile_size": 256,
+    "tiles_per_image": 48
+  },
+  "models": {
+    "coarse_checkpoint_pattern": "results/coarse_model/checkpoints/fold_{fold}_best.pt",
+    "fine_checkpoint_pattern": "results/fine_model/checkpoints/fold_{fold}_best.pt",
+    "coarse_prediction_pattern": "results/coarse_model/predicted_masks/fold_{fold}/{sample_id}.png",
+    "fine_prediction_pattern": "results/fine_model/predicted_masks/fold_{fold}/{sample_id}.png",
+    "coarse_probability_upsampling": "nearest_neighbor",
+    "fine_inference_batch_size": 16,
+    "prediction_threshold": 0.5,
+    "device": "auto"
+  },
+  "selection": {
+    "rankings": "results/tile_selection/metrics/uncertainty_rankings.csv",
+    "primary_policy": "entropy_q90",
+    "secondary_policy": "variance_q90",
+    "budgets": [2, 4, 8, 12, 24, 48],
+    "random_trials": 100,
+    "random_seed_base": 6026,
+    "oracle_policy": "evaluation_only_true_feathered_error_reduction"
+  },
+  "fusion": {
+    "primary_rule": "feathered_probability_blend",
+    "blend_width_pixels": 8,
+    "hard_replacement_ablation": true,
+    "blend_width_rationale": "Fixed before Step 6 evaluation from the Step 5 four-pixel seam audit; eight pixels provide a conservative transition without tuning on Step 6 metrics.",
+    "unselected_region": "frozen_coarse_probability",
+    "selected_tile_interior": "frozen_fine_probability"
+  },
+  "statistics": {
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 10026,
+    "confidence_level": 0.95
+  },
+  "visualization": {
+    "example_budget": 12
+  },
+  "reproducibility": {
+    "random_seed": 11026,
+    "ground_truth_use": "Metrics and evaluation-only oracle ranking after entropy, variance, random rankings, and model probabilities are generated",
+    "cost_interpretation": "Offline counterfactual evaluation computes all fine probabilities once; reported cost is selected native-tile coverage, not measured wall-clock acquisition time"
+  },
+  "output_dir": "results/adaptive_fusion"
+}
